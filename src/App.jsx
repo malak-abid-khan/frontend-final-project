@@ -4,6 +4,7 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import { Home, Users, UserCheck, LineChart } from "lucide-react";
 import HomePage from "./pages/Home";
+import ClientSide from "./pages/ClientSide";
 
 function App() {
   return (
@@ -11,7 +12,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/" element={<Dashboard />}>
+        <Route path="/" element={<ClientSide />}>
           <Route path="/dashboard" element={<HomePage />} />
         </Route>
       </Routes>

@@ -3,8 +3,32 @@ import { Button } from "@/components/ui/button";
 import { Lock, Mail, User } from "lucide-react";
 import React from "react";
 import { Link } from "react-router-dom";
+import axiosClient from "@/api/axiosClient";
+import { useState } from "react";
+import { redirect } from "react-router-dom";
 
 export const Signup = () => {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const Signup = async (e) => {
+    e.preventDefault();
+    try {
+      const resp = await axiosClient.post("/users/register/", {
+        username: username,
+        password: password,
+        email: email,
+      });
+      console.log(resp);
+      if (resp.status === 201) {
+        redirect("/login/");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <section className="h-screen w-full">
       <div className="flex">
@@ -17,7 +41,7 @@ export const Signup = () => {
               </p>
             </div>
 
-            <form>
+            <form onSubmit={Signup}>
               <div className="flex items-center gap-2 border border-muted-foreground px-4 py-2 mb-4 rounded">
                 <span>
                   <User />
@@ -27,6 +51,7 @@ export const Signup = () => {
                   placeholder="Username"
                   className="outline-none"
                   required
+                  onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
               <div className="flex items-center gap-2 border border-muted-foreground px-4 py-2 mb-4 rounded">
@@ -38,6 +63,7 @@ export const Signup = () => {
                   placeholder="Email"
                   className="outline-none"
                   required
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="flex items-center gap-2 border border-muted-foreground px-4 py-2 mb-4 rounded">
@@ -49,11 +75,12 @@ export const Signup = () => {
                   placeholder="Password"
                   className="outline-none"
                   required
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
 
               <Button size={"lg"} className="w-full" type="submit">
-                Login
+                Sign Up
               </Button>
               <p className="mt-3">
                 Already have an account?{" "}
